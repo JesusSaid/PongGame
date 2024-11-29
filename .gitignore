@@ -1,0 +1,34 @@
+# Unity folders to exclude
+/Library/
+/Temp/
+/Obj/
+/Builds/
+/Logs/
+/UserSettings/
+
+# Visual Studio folders and files
+.vs/
+/*.csproj
+/*.sln
+/*.suo
+/*.tmp
+/*.user
+/*.userprefs
+
+# Mono Auto-generated files
+/*.pidb
+/*.booproj
+
+# Rider IDE files
+.idea/
+
+# VSCode files
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+*.log
+
+# Unity auto-generated files
+UpgradeLog.htm
