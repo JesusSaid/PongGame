@@ -1,9 +1,27 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
+    public GameUI gameUI;
     public int scorePlayer1, scorePlayer2;
-    public ScoreText scoreTextLeft, scoreTextRight;
+    public System.Action onReset;
+    public int maxScore = 4;
+
+    private void Awake()
+    {
+        if (instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            gameUI.onStartGame += OnStartGame;
+        }
+    }
 
     public void OnScoreZoneReached(int id)
     {
@@ -17,12 +35,29 @@ public class GameManager : MonoBehaviour
             scorePlayer2++;
         }
 
-        UpdateScores();
+        gameUI.UpdateScores(scorePlayer1, scorePlayer2);
+        CheckWin();
     }
 
-    private void UpdateScores()
+    private void CheckWin()
     {
-        scoreTextLeft.SetScore(scorePlayer1);
-        scoreTextRight.SetScore(scorePlayer2);
+        int winnerId = scorePlayer1 == maxScore ? 1 : scorePlayer2 == maxScore ? 2 : 0;
+
+        if (winnerId != 0)
+        {
+            gameUI.OnGameEnds(winnerId);
+        }
+        else
+        {
+            onReset?.Invoke();
+        }
     }
+
+    private void OnStartGame()
+    {
+        scorePlayer1 = 0; scorePlayer2 = 0;
+        gameUI.UpdateScores(scorePlayer1,scorePlayer2);
+    }
+
+    
 }
